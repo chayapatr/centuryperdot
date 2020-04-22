@@ -133,23 +133,40 @@
                     state += 100000
                 })
 
-                requestIdleCallback(() => {
-                    let reactiveChunk = () => {
-                        if (
-                            window.scrollY >
-                            document.body.scrollHeight - window.innerHeight * 3
-                        )
-                            requestAnimationFrame(() => {
-                                judgeReactivity(
-                                    append(generateChunk(state)),
-                                    reactiveChunk
-                                )
-                                state += 100000
-                            })
-                    }
+                if(typeof requestIdleCallback !== "undefined")
+                    return requestIdleCallback(() => {
+                        let reactiveChunk = () => {
+                            if (
+                                window.scrollY >
+                                document.body.scrollHeight - window.innerHeight * 3
+                            )
+                                requestAnimationFrame(() => {
+                                    judgeReactivity(
+                                        append(generateChunk(state)),
+                                        reactiveChunk
+                                    )
+                                    state += 100000
+                                })
+                        }
 
-                    window.addEventListener('scroll', reactiveChunk, true)
-                })
+                        window.addEventListener('scroll', reactiveChunk, true)
+                    })
+
+                let reactiveChunk = () => {
+                    if (
+                        window.scrollY >
+                        document.body.scrollHeight - window.innerHeight * 3
+                    )
+                        requestAnimationFrame(() => {
+                            judgeReactivity(
+                                append(generateChunk(state)),
+                                reactiveChunk
+                            )
+                            state += 100000
+                        })
+                }
+
+                window.addEventListener('scroll', reactiveChunk, true)
             })
         </script>
     </head>
