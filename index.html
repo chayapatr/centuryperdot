@@ -126,16 +126,8 @@
                                 reactiveCallback,
                                 true
                             )
-                    }
-
-                requestAnimationFrame(() => {
-                    append(generateChunk())
-                    state += 100000
-                })
-
-                if(typeof requestIdleCallback !== "undefined")
-                    return requestIdleCallback(() => {
-                        let reactiveChunk = () => {
+                    },
+                    reactiveChunk = () => {
                             if (
                                 window.scrollY >
                                 document.body.scrollHeight - window.innerHeight * 3
@@ -149,22 +141,15 @@
                                 })
                         }
 
+                requestAnimationFrame(() => {
+                    append(generateChunk())
+                    state += 100000
+                })
+
+                if(typeof requestIdleCallback !== "undefined")
+                    return requestIdleCallback(() => {
                         window.addEventListener('scroll', reactiveChunk, true)
                     })
-
-                let reactiveChunk = () => {
-                    if (
-                        window.scrollY >
-                        document.body.scrollHeight - window.innerHeight * 3
-                    )
-                        requestAnimationFrame(() => {
-                            judgeReactivity(
-                                append(generateChunk(state)),
-                                reactiveChunk
-                            )
-                            state += 100000
-                        })
-                }
 
                 window.addEventListener('scroll', reactiveChunk, true)
             })
