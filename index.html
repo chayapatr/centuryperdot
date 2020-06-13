@@ -2,6 +2,7 @@
     <head>
         <meta charset="utf-8">
         <title>Century Per Dot</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
             :root {
                 --background: #fff;
@@ -126,16 +127,8 @@
                                 reactiveCallback,
                                 true
                             )
-                    }
-
-                requestAnimationFrame(() => {
-                    append(generateChunk())
-                    state += 100000
-                })
-
-                if(typeof requestIdleCallback !== "undefined")
-                    return requestIdleCallback(() => {
-                        let reactiveChunk = () => {
+                    },
+                    reactiveChunk = () => {
                             if (
                                 window.scrollY >
                                 document.body.scrollHeight - window.innerHeight * 3
@@ -149,22 +142,15 @@
                                 })
                         }
 
+                requestAnimationFrame(() => {
+                    append(generateChunk())
+                    state += 100000
+                })
+
+                if(typeof requestIdleCallback !== "undefined")
+                    return requestIdleCallback(() => {
                         window.addEventListener('scroll', reactiveChunk, true)
                     })
-
-                let reactiveChunk = () => {
-                    if (
-                        window.scrollY >
-                        document.body.scrollHeight - window.innerHeight * 3
-                    )
-                        requestAnimationFrame(() => {
-                            judgeReactivity(
-                                append(generateChunk(state)),
-                                reactiveChunk
-                            )
-                            state += 100000
-                        })
-                }
 
                 window.addEventListener('scroll', reactiveChunk, true)
             })
