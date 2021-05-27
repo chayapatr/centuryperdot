@@ -138,13 +138,13 @@
                                         append(generateChunk(state)),
                                         reactiveChunk
                                     )
-                                    state += 100000
+                                    state += 10000000
                                 })
                         }
 
                 requestAnimationFrame(() => {
                     append(generateChunk())
-                    state += 100000
+                    state += 10000000
                 })
 
                 if(typeof requestIdleCallback !== "undefined")
